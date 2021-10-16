@@ -1,0 +1,58 @@
+﻿@model OnlineBusBookingNew.EF.Routing
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Routing</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StartPlace)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartPlace)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndPlace)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndPlace)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bus.BusName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bus.BusName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.RoutingID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

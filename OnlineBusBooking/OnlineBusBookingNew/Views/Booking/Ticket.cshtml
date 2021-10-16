@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "Ticket";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="products">
+    <div class="container">
+        <div class="agileinfo_single">
+            
+            <span style="text-align:center"><h1>Ticket</h1></span>
+            <hr />
+
+            <div class="col-md-4 agileinfo_single_left">
+                <img src="~/Content/images/logo-AP.jpg" />
+                <img id="example" src="~/Content/images/bus_item_bus001.png" alt=" " class="img-responsive">
+            </div>
+            <div class="col-md-8 agileinfo_single_right">
+                <h2>Name: @ViewBag.ticketFullName</h2>
+                
+                <div class="w3agile_description">
+                    <h4>Description :</h4>
+                    <p>
+                        Your Birth Date: @ViewBag.ticketFullName
+                    </p>
+                    <p>
+                        Your Address: @ViewBag.ticketAddress
+                    </p>
+                    <p>
+                        Your Phone number: @ViewBag.ticketPhone
+                    </p>
+                    <p>
+                        Ordered Routing: &nbsp;&nbsp;&nbsp;&nbsp;
+                        @ViewBag.ticketStartPlace 
+                        <span>&nbsp;&nbsp; to &nbsp;&nbsp;</span>
+                        @ViewBag.ticketEndPlace
+                    </p>
+                    <p>
+                        Your Bus name: @ViewBag.ticketBusName
+                    </p>
+                    <p>
+                        Your Seat number: @ViewBag.ticketSeatNumber
+                    </p>
+                </div>
+                
+                    <div class="snipcart-thumb agileinfo_single_right_snipcart">
+                        <h4 class="m-sing">Price: $ @ViewBag.ticketPrice</h4>
+                    </div>
+                    <div class="snipcart-details agileinfo_single_right_details">
+                        <p>Thank you Ordering!</p>
+                        <a href="~/Home" class="btn btn-primary">Back to Home</a>
+                    </div>
+                
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+</div>
+
+<!--------------------------------------------------------------------------------->
+
+
+
+
+
+

@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OnlineBusDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Bus">
+    <Key>
+      <PropertyRef Name="BusID" />
+    </Key>
+    <Property Name="BusID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="BusName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Seats" Type="Int32" />
+    <NavigationProperty Name="Routing" Relationship="Self.FK_Routing_Bus" FromRole="Bus" ToRole="Routing" />
+    <NavigationProperty Name="Seat" Relationship="OnlineBusDBModel.FK_Seat_Bus" FromRole="Bus" ToRole="Seat" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="OrderID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderDate" Type="DateTime" Precision="0" />
+    <Property Name="UserID" Type="Int64" />
+    <Property Name="OrderStatus" Type="Byte" />
+    <Property Name="RefundAmount" Type="Decimal" Precision="18" Scale="0" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Order_User" FromRole="Order" ToRole="User" />
+    <NavigationProperty Name="OrderDetail" Relationship="OnlineBusDBModel.FK_OrderDetail_Order" FromRole="Order" ToRole="OrderDetail" />
+  </EntityType>
+  <EntityType Name="Routing">
+    <Key>
+      <PropertyRef Name="RoutingID" />
+    </Key>
+    <Property Name="RoutingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BusID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="StartPlace" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="EndPlace" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="StartDate" Type="DateTime" Precision="0" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+    <NavigationProperty Name="Bus" Relationship="Self.FK_Routing_Bus" FromRole="Routing" ToRole="Bus" />
+    <NavigationProperty Name="OrderDetail" Relationship="OnlineBusDBModel.FK_OrderDetail_Routing" FromRole="Routing" ToRole="OrderDetail" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FullName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="BirthDate" Type="DateTime" Precision="0" />
+    <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Type" Type="Int32" />
+    <NavigationProperty Name="Order" Relationship="Self.FK_Order_User" FromRole="User" ToRole="Order" />
+  </EntityType>
+  <Association Name="FK_Routing_Bus">
+    <End Role="Bus" Type="Self.Bus" Multiplicity="1" />
+    <End Role="Routing" Type="Self.Routing" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bus">
+        <PropertyRef Name="BusID" />
+      </Principal>
+      <Dependent Role="Routing">
+        <PropertyRef Name="BusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="OnlineBusDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Bus" EntityType="Self.Bus" />
+    <EntitySet Name="Order" EntityType="Self.Order" />
+    <EntitySet Name="Routing" EntityType="Self.Routing" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="User" EntityType="Self.User" />
+    <AssociationSet Name="FK_Routing_Bus" Association="Self.FK_Routing_Bus">
+      <End Role="Bus" EntitySet="Bus" />
+      <End Role="Routing" EntitySet="Routing" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_User" Association="Self.FK_Order_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <EntitySet Name="Seat" EntityType="OnlineBusDBModel.Seat" />
+    <AssociationSet Name="FK_Seat_Bus" Association="OnlineBusDBModel.FK_Seat_Bus">
+      <End Role="Bus" EntitySet="Bus" />
+      <End Role="Seat" EntitySet="Seat" />
+    </AssociationSet>
+    <EntitySet Name="OrderDetail" EntityType="OnlineBusDBModel.OrderDetail" />
+    <AssociationSet Name="FK_OrderDetail_Order" Association="OnlineBusDBModel.FK_OrderDetail_Order">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="OrderDetail" EntitySet="OrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_Routing" Association="OnlineBusDBModel.FK_OrderDetail_Routing">
+      <End Role="Routing" EntitySet="Routing" />
+      <End Role="OrderDetail" EntitySet="OrderDetail" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Seat">
+    <Key>
+      <PropertyRef Name="SeatID" />
+    </Key>
+    <Property Name="SeatID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SeatNumber" Type="Int32" Nullable="false" />
+    <Property Name="BusID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Boolean" />
+    <NavigationProperty Name="Bus" Relationship="OnlineBusDBModel.FK_Seat_Bus" FromRole="Seat" ToRole="Bus" />
+  </EntityType>
+  <Association Name="FK_Seat_Bus">
+    <End Type="OnlineBusDBModel.Bus" Role="Bus" Multiplicity="0..1" />
+    <End Type="OnlineBusDBModel.Seat" Role="Seat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bus">
+        <PropertyRef Name="BusID" />
+      </Principal>
+      <Dependent Role="Seat">
+        <PropertyRef Name="BusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="OrderDetail">
+    <Key>
+      <PropertyRef Name="OrderDetailID" />
+    </Key>
+    <Property Name="OrderDetailID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderID" Type="Int64" />
+    <Property Name="RoutingID" Type="Int32" />
+    <Property Name="SeatNumber" Type="Int32" Nullable="false" />
+    <Property Name="PriceCalculated" Type="Decimal" Precision="18" Scale="0" />
+    <NavigationProperty Name="Order" Relationship="OnlineBusDBModel.FK_OrderDetail_Order" FromRole="OrderDetail" ToRole="Order" />
+    <NavigationProperty Name="Routing" Relationship="OnlineBusDBModel.FK_OrderDetail_Routing" FromRole="OrderDetail" ToRole="Routing" />
+  </EntityType>
+  <Association Name="FK_OrderDetail_Order">
+    <End Type="OnlineBusDBModel.Order" Role="Order" Multiplicity="0..1" />
+    <End Type="OnlineBusDBModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_Routing">
+    <End Type="OnlineBusDBModel.Routing" Role="Routing" Multiplicity="0..1" />
+    <End Type="OnlineBusDBModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Routing">
+        <PropertyRef Name="RoutingID" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="RoutingID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

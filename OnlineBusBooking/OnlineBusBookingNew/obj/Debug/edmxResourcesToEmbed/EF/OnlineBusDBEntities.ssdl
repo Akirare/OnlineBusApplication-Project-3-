@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OnlineBusDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Bus">
+    <Key>
+      <PropertyRef Name="BusID" />
+    </Key>
+    <Property Name="BusID" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="BusName" Type="nvarchar" MaxLength="250" />
+    <Property Name="Type" Type="nvarchar" MaxLength="50" />
+    <Property Name="Seats" Type="int" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="OrderID" />
+    </Key>
+    <Property Name="OrderID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderDate" Type="date" />
+    <Property Name="UserID" Type="bigint" />
+    <Property Name="OrderStatus" Type="tinyint" />
+    <Property Name="RefundAmount" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="OrderDetail">
+    <Key>
+      <PropertyRef Name="OrderDetailID" />
+    </Key>
+    <Property Name="OrderDetailID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderID" Type="bigint" />
+    <Property Name="RoutingID" Type="int" />
+    <Property Name="SeatNumber" Type="int" />
+    <Property Name="PriceCalculated" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="Routing">
+    <Key>
+      <PropertyRef Name="RoutingID" />
+    </Key>
+    <Property Name="RoutingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BusID" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="StartPlace" Type="nvarchar" MaxLength="250" />
+    <Property Name="EndPlace" Type="nvarchar" MaxLength="250" />
+    <Property Name="StartDate" Type="date" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="Seat">
+    <Key>
+      <PropertyRef Name="SeatID" />
+    </Key>
+    <Property Name="SeatID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SeatNumber" Type="int" />
+    <Property Name="BusID" Type="nvarchar" MaxLength="10" Nullable="false" />
+    <Property Name="Status" Type="bit" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Password" Type="varchar" MaxLength="50" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="250" />
+    <Property Name="BirthDate" Type="date" />
+    <Property Name="Address" Type="nvarchar" MaxLength="250" />
+    <Property Name="Phone" Type="varchar" MaxLength="50" />
+    <Property Name="Type" Type="int" />
+  </EntityType>
+  <Association Name="FK_Order_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_Order">
+    <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
+    <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrderID" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="OrderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_Routing">
+    <End Role="Routing" Type="Self.Routing" Multiplicity="0..1" />
+    <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Routing">
+        <PropertyRef Name="RoutingID" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="RoutingID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Routing_Bus">
+    <End Role="Bus" Type="Self.Bus" Multiplicity="1" />
+    <End Role="Routing" Type="Self.Routing" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bus">
+        <PropertyRef Name="BusID" />
+      </Principal>
+      <Dependent Role="Routing">
+        <PropertyRef Name="BusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Seat_Bus">
+    <End Role="Bus" Type="Self.Bus" Multiplicity="1" />
+    <End Role="Seat" Type="Self.Seat" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bus">
+        <PropertyRef Name="BusID" />
+      </Principal>
+      <Dependent Role="Seat">
+        <PropertyRef Name="BusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="OnlineBusDBModelStoreContainer">
+    <EntitySet Name="Bus" EntityType="Self.Bus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Routing" EntityType="Self.Routing" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Seat" EntityType="Self.Seat" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Order_User" Association="Self.FK_Order_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_Order" Association="Self.FK_OrderDetail_Order">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="OrderDetail" EntitySet="OrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_Routing" Association="Self.FK_OrderDetail_Routing">
+      <End Role="Routing" EntitySet="Routing" />
+      <End Role="OrderDetail" EntitySet="OrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Routing_Bus" Association="Self.FK_Routing_Bus">
+      <End Role="Bus" EntitySet="Bus" />
+      <End Role="Routing" EntitySet="Routing" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Seat_Bus" Association="Self.FK_Seat_Bus">
+      <End Role="Bus" EntitySet="Bus" />
+      <End Role="Seat" EntitySet="Seat" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

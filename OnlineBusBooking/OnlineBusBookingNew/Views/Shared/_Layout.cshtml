@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@ViewBag.OnlineBus - Booking</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <!-- Styles -->
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/bootstrap.min.css" />
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    @*<script src="~/Content/bower_components/jquery/dist/jquery-1.10.2.min.js"></script>*@
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="~/Content/css/style.css" />
+
+    <link rel="stylesheet" type="text/css" href="~/Content/css/responsive.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/color2.css" />
+    <!-- Custom CSS -->
+    <link href="~/Content/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- SLIDER REVOLUTION 4.x CSS SETTINGS -->
+    @*<link rel="stylesheet" type="text/css" href="~/Content/css/extralayers.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/settings.css" media="screen" />*@
+
+</head>
+<body itemscope="">
+    <div>
+
+        <!-- Header nav-->
+
+       @RenderPage("_Header.cshtml")
+
+        <!-- Header nav-->
+
+        @*<div class="container body-content">*@
+        @RenderBody()
+        
+        
+        <hr />
+        <footer>
+            @RenderPage("_Footer.cshtml")
+        </footer>
+
+    </div>
+
+
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    
+
+    <script src="/Content/js/jquery.min.js" type="text/javascript"></script>
+
+    <!-- SLIDER REVOLUTION 4.x SCRIPTS  -->
+    <script type="text/javascript" src="~/Content/js/revolution/jquery.themepunch.tools.min.js"></script>
+    <script type="text/javascript" src="~/Content/js/revolution/jquery.themepunch.revolution.min.js"></script>
+
+    <script src="~/Content/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="~/Content/js/owl.carousel.min.js" type="text/javascript"></script>
+    <script src="~/Content/js/jquery.poptrox.min.js" type="text/javascript"></script>
+    <script src="~/Content/js/enscroll-0.5.2.min.js" type="text/javascript"></script>
+    <script src="~/Content/js/jquery.scrolly.js" type="text/javascript"></script>
+    <script src="~/Content/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+    <script src="~/Content/js/userincr.js" type="text/javascript"></script>
+    <script src="~/Content/js/select2.min.js" type="text/javascript"></script>
+    <script src="~/Content/js/check-radio-box.js" type="text/javascript"></script>
+    <script src="~/Content/js/script.js" type="text/javascript"></script>
+    @*<script src="/Content/js/jquery.simpleWeather.min.js"></script>*@
+
+    <!-- DataTables JavaScript -->
+    <script src="~/Content/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+    <script src="~/Content/js/jquery-ui-1.12.1.min.js"></script>
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#dataTables-example').DataTable({
+                responsive: true
+            });
+        });
+    </script>
+    <script type="text/javascript">
+		$(document).ready(function(){
+			jQuery('.tp-banner').show().revolution({
+				delay:15000,
+				startwidth:1170,
+				startheight:650,
+				autoHeight:"off",
+				navigationType:"none",
+				hideThumbs:10,
+				fullWidth:"on",
+				fullScreen:"off",
+				fullScreenOffsetContainer:""
+            });
+
+			$(".select").select2();
+
+			$('.clients-carousel').owlCarousel({
+				autoplay:true,
+				autoplayTimeout:30000,
+				smartSpeed:2000,
+				loop:true,
+				dots:false,
+				nav:true,
+				margin:10,
+				items:5,
+				autoHeight:true,
+				responsive:{
+					0:{items:1},
+					600:{items:2},
+					1000:{items:3},
+					1200:{items:5}
+				}
+			});
+		});
+
+		$(window).load(function(){
+			$('.destination-carousel').owlCarousel({
+				autoplay:false,
+				autoplayTimeout:30000,
+				smartSpeed:2000,
+				loop:false,
+				dots:false,
+				mouseDrag:true,
+				nav:true,
+				margin:30,
+				items:2,
+				autoHeight:true,
+		        autoplayHoverPause:true,
+		        URLhashListener:true,
+		        startPosition: 'URLHash',
+				responsive:{
+					0:{items:1},
+					600:{items:2},
+					1000:{items:2},
+					1200:{items:2}
+				}
+			});
+
+			$(".destination-slide").owlCarousel({
+				autoplay:false,
+				autoplayTimeout:30000,
+				smartSpeed:2000,
+				loop:false,
+				dots:false,
+				nav:false,
+				items:1,
+				singleItem:true,
+				autoHeight:true,
+		        URLhashListener:true,
+			});
+
+		});
+    </script>
+
+</body>
+</html>
